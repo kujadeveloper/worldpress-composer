@@ -1,0 +1,31 @@
+version: '2'
+services:
+  
+  mariadb:
+    image: docker.io/bitnami/mariadb:10.6
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      # ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=****
+      - MARIADB_DATABASE=wordpress
+      - MARIADB_PASSWORD=****
+      - MARIADB_ROOT_USER=****
+      - MARIADB_ROOT_PASSWORD=****
+    ports:
+      - 3306:3306
+    volumes:
+      - wp_data:/bitnami/mariadb
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_USER=****
+      - WORDPRESS_DB_PASSWORD=****
+      - WORDPRESS_DB_NAME=wordpress
+
+volumes:
+  wp_data:
+    driver: local
